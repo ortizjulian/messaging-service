@@ -1,6 +1,7 @@
 package com.restaurant.messaging_service.infrastucture.configuration;
 
 import com.restaurant.messaging_service.infrastucture.output.security.jwt.JwtAuthenticationFilter;
+import com.restaurant.messaging_service.utils.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,8 @@ public class ConfigFilter {
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
                                 .requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
-                                .anyRequest().permitAll()
+                                .requestMatchers("/notify/**").hasAuthority(SecurityConstants.ROLE_EMPLOYEE)
+                                .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
