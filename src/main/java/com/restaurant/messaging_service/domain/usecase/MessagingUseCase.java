@@ -1,6 +1,8 @@
 package com.restaurant.messaging_service.domain.usecase;
 
 import com.restaurant.messaging_service.domain.api.IMessagingServicePort;
+import com.restaurant.messaging_service.domain.exceptions.InvalidCodeException;
+import com.restaurant.messaging_service.domain.exceptions.OrderIsNotReadyException;
 import com.restaurant.messaging_service.domain.model.NotifyClient;
 import com.restaurant.messaging_service.domain.spi.ICodePersistencePort;
 import com.restaurant.messaging_service.domain.spi.IMessagingPersistencePort;
@@ -22,5 +24,17 @@ public class MessagingUseCase implements IMessagingServicePort {
         String securityCode = CodeGenerator.generateCode();
         messagingPersistencePort.notifyClient(notifyClient.getPhoneNumber(),securityCode);
         codeServicePort.saveCode(notifyClient.getOrderId(),securityCode);
+    }
+
+    @Override
+    public void verifyCode(Long orderId, String code) {
+
+        if(!codeServicePort.orderIsReady(orderId)) {
+            throw new OrderIsNotReadyException();
+        }
+
+        if(!codeServicePort.isCodeValid(orderId,code)) {
+            throw new InvalidCodeException();
+        }
     }
 }

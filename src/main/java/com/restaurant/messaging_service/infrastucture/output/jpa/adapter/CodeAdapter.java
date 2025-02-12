@@ -17,4 +17,15 @@ public class CodeAdapter implements ICodePersistencePort {
         codeEntity.setOrderId(orderId);
         codeRepository.save(codeEntity);
     }
+
+    @Override
+    public boolean orderIsReady(Long orderId) {
+        return codeRepository.existsByOrderId(orderId);
+    }
+
+    @Override
+    public boolean isCodeValid(Long orderId, String code) {
+
+        return codeRepository.existsByOrderIdAndCode(orderId,code);
+    }
 }
