@@ -4,4 +4,6 @@ import com.restaurant.messaging_service.application.dto.NotifyClientRequestDto;
 
 public interface IMessagingHandler {
     void notifyClient(NotifyClientRequestDto notifyClientRequestDto);
+
+    void verifyCode(Long orderId, String code);
 }

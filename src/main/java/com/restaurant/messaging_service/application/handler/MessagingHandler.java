@@ -20,4 +20,9 @@ public class MessagingHandler implements IMessagingHandler{
 
         messagingServicePort.notifyClient(notifyClientRequestMapper.toNotifyClient(notifyClientRequestDto));
     }
+
+    @Override
+    public void verifyCode(Long orderId, String code) {
+        messagingServicePort.verifyCode(orderId,code);
+    }
 }
