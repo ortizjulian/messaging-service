@@ -20,7 +20,6 @@ public class MessagingUseCase implements IMessagingServicePort {
 
     @Override
     public void notifyClient(NotifyClient notifyClient) {
-
         String securityCode = CodeGenerator.generateCode();
         messagingPersistencePort.notifyClient(notifyClient.getPhoneNumber(),securityCode);
         codeServicePort.saveCode(notifyClient.getOrderId(),securityCode);
@@ -28,7 +27,6 @@ public class MessagingUseCase implements IMessagingServicePort {
 
     @Override
     public void verifyCode(Long orderId, String code) {
-
         if(!codeServicePort.orderIsReady(orderId)) {
             throw new OrderIsNotReadyException();
         }
